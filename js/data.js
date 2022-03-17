@@ -1,9 +1,12 @@
-import {getRandom, getRandomElement, getRandomInt, getRandomString, padZero} from './util.js';
+import {getRandom, getRandomElement, getRandomInt, padZero} from './util.js';
 
 const bookingTypes = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const checkIns = ['12:00', '13:00', '14:00'];
 const checkOuts = checkIns.slice();
 const features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const photos = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
 
 const generateBooking = (id) => {
   const location = {
@@ -26,8 +29,7 @@ const generateBooking = (id) => {
       checkout: getRandomElement(checkOuts),
       features: Array.from({length: getRandomInt(1, features.length - 1)}, () => getRandomElement(features)),
       description: `Booking #${id} description`,
-      photos: Array.from({length: getRandomInt(1, 5)},
-        () => `https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/${getRandomString(getRandomInt(4, 18))}-${getRandomString(getRandomInt(4, 18))}.jpg`),
+      photos: Array.from({length: getRandomInt(1, 5)}, () => getRandomElement(photos)),
     },
     location
   };
