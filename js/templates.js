@@ -1,6 +1,6 @@
 import {OFFER_TYPES} from './util.js';
 
-function generateBookingItem(offer, author) {
+function generateBookingItem({offer, author}) {
   let featureItems = '';
   offer.features.forEach((featureName) => {
     featureItems += `<li class="popup__feature popup__feature--${featureName}"></li>`;
