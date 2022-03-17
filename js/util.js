@@ -42,6 +42,14 @@ const getRandomString = (length) => {
   return result;
 };
 
+const OFFER_TYPES = {
+  'flat': 'Квартира',
+  'bungalow': 'Бунгало',
+  'house': 'Дом',
+  'palace': 'Дворец',
+  'hotel': 'Отель'
+};
+
 const padZero = (num) => num.toString().length <= 1 ? `0${num}` : num;
 
-export {getRandomInt, getRandom, getRandomElement, getRandomString, padZero};
+export {getRandomInt, getRandom, getRandomElement, getRandomString, OFFER_TYPES, padZero};

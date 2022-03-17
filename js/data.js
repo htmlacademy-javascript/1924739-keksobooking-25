@@ -1,4 +1,4 @@
-import {getRandom, getRandomElement, getRandomInt, getRandomString, padZero} from './util';
+import {getRandom, getRandomElement, getRandomInt, getRandomString, padZero} from './util.js';
 
 const bookingTypes = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const checkIns = ['12:00', '13:00', '14:00'];
@@ -32,9 +32,10 @@ const generateBooking = (id) => {
     location
   };
 };
-const bookingIds = Array.from({length: 10}, (v, i) => padZero(i + 1));
-const bookings = [];
 
-bookingIds.forEach((id) => bookings.push(generateBooking(id)));
+const generateBookings = () => {
+  const bookingIds = Array.from({length: 10}, (v, i) => padZero(i + 1));
+  return bookingIds.map((id) => generateBooking(id));
+};
 
-export {bookings};
+export {generateBookings};
