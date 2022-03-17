@@ -1,7 +1,11 @@
-import './data';
-import {bookings} from './data';
+import {generateBookings} from './data';
+import {generateBookingItem} from './templates';
 
-bookings.forEach((v) => {
-  // eslint-disable-next-line no-console
-  console.log(v);
+const template = document.createElement('template');
+
+generateBookings().forEach((booking) => {
+  template.innerHTML += generateBookingItem(booking);
 });
+
+const mapCanvas = document.querySelector('#map-canvas');
+mapCanvas.appendChild(template.content);
