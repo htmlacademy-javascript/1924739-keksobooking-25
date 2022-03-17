@@ -1,4 +1,4 @@
-import {getRandom, getRandomElement, getRandomInt, getRandomString, padZero} from './util';
+import {getRandom, getRandomElement, getRandomInt, getRandomString, padZero} from './util.js';
 
 const bookingTypes = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const checkIns = ['12:00', '13:00', '14:00'];

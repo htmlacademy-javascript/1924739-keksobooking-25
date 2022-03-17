@@ -1,4 +1,4 @@
-import {OFFER_TYPES} from './util';
+import {OFFER_TYPES} from './util.js';
 
 function generateBookingItem(offer, author) {
   let featureItems = '';

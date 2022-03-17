@@ -1,5 +1,5 @@
-import {generateBookings} from './data';
-import {generateBookingItem} from './templates';
+import {generateBookings} from './data.js';
+import {generateBookingItem} from './templates.js';
 
 const template = document.createElement('template');
 
