@@ -42,14 +42,23 @@ const getRandomString = (length) => {
   return result;
 };
 
-const OFFER_TYPES = {
-  'flat': 'Квартира',
-  'bungalow': 'Бунгало',
-  'house': 'Дом',
-  'palace': 'Дворец',
-  'hotel': 'Отель'
+const getMinPrice = (accommodationType) => {
+  switch (accommodationType) {
+    case 'palace':
+      return 10000;
+    case 'flat':
+      return 1000;
+    case 'house':
+      return 5000;
+    case 'bungalow':
+      return 0;
+    case 'hotel':
+      return 3000;
+    default:
+      return -1;
+  }
 };
 
 const padZero = (num) => num.toString().length <= 1 ? `0${num}` : num;
 
-export {getRandomInt, getRandom, getRandomElement, getRandomString, OFFER_TYPES, padZero};
+export {getRandomInt, getRandom, getRandomElement, getRandomString, padZero, getMinPrice};

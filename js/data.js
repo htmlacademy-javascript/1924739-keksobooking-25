@@ -1,6 +1,15 @@
 import {getRandom, getRandomElement, getRandomInt, padZero} from './util.js';
 
 const bookingTypes = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+
+const OFFER_TYPES = {
+  'flat': 'Квартира',
+  'bungalow': 'Бунгало',
+  'house': 'Дом',
+  'palace': 'Дворец',
+  'hotel': 'Отель'
+};
+
 const checkIns = ['12:00', '13:00', '14:00'];
 const checkOuts = checkIns.slice();
 const features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -40,4 +49,4 @@ const generateBookings = () => {
   return bookingIds.map((id) => generateBooking(id));
 };
 
-export {generateBookings};
+export {generateBookings, OFFER_TYPES};
