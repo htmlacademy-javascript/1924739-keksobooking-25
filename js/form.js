@@ -55,12 +55,12 @@ timeOutSelect.addEventListener('change', (evt) => {
   timeInSelect.value = evt.target.value;
 });
 
-const roomsNumber = form.querySelector('#room_number');
-const capacity = form.querySelector('#capacity');
+const roomsSelect = form.querySelector('#room_number');
+const capacitySelect = form.querySelector('#capacity');
 
 const validateCapacity = (value) => {
-  const rooms = parseInt(roomsNumber.value);
-  const capacity = parseInt(value);
+  const rooms = parseInt(roomsSelect.value, 10);
+  const capacity = parseInt(value, 10);
   if (rooms === 100) {
     return capacity === 0;
   }
@@ -69,15 +69,15 @@ const validateCapacity = (value) => {
 };
 
 const getCapacityError = () => {
-  if (parseInt(roomsNumber.value) === 100) {
+  if (parseInt(roomsSelect.value, 10) === 100) {
     return 'Этот вариант не для гостей';
   }
-  return `Количество должно быть не больше ${roomsNumber.value}`;
+  return `Количество должно быть не больше ${roomsSelect.value}`;
 };
 
-pristine.addValidator(capacity, validateCapacity, getCapacityError);
+pristine.addValidator(capacitySelect, validateCapacity, getCapacityError);
 
-roomsNumber.addEventListener('change', () => pristine.validate(capacity));
+roomsSelect.addEventListener('change', () => pristine.validate(capacitySelect));
 
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
