@@ -1,5 +1,6 @@
 import {getMinPrice} from './util.js';
 import {OFFER_TYPES} from './data.js';
+import './slider.js'
 
 const form = document.querySelector('.ad-form');
 
@@ -40,7 +41,9 @@ const getPriceErrorMessage = () => `Минимальная цена для жи�
 pristine.addValidator(priceInput, validatePrice, getPriceErrorMessage);
 
 accommodationTypeSelect.addEventListener('change', (evt) => {
-  priceInput.placeholder = getMinPrice(evt.target.value);
+  const minPrice = getMinPrice(evt.target.value);
+  priceInput.placeholder = minPrice;
+  form.querySelector('.ad-form__slider').noUiSlider.set(minPrice);
   pristine.validate(priceInput);
 });
 
