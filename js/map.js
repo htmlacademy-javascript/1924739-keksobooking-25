@@ -9,6 +9,26 @@ const setAddress = ({lat, lng}) => {
   addressInput.value = `${parseFloat(lat).toFixed(5)}, ${parseFloat(lng).toFixed(5)}`;
 };
 
+/**
+ *
+ * @param {[Object]} bookings
+ */
+const createMarkers = (bookings) => {
+  const result = [];
+  const pinIcon = L.icon({
+    iconUrl: '../img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -20]
+  });
+  bookings.forEach((booking) => {
+    result.push(L.marker(booking.location, {
+      icon: pinIcon
+    }).bindPopup(generateBookingItem(booking)));
+  });
+  return result;
+};
+
 const mapInit = () => {
   const map = L.map('map-canvas')
     .on('load', () => {
@@ -42,26 +62,6 @@ const mapInit = () => {
   });
   createMarkers(generateBookings())
     .forEach((marker) => marker.addTo(map));
-};
-
-/**
- *
- * @param {[Object]} bookings
- */
-const createMarkers = (bookings) => {
-  const result = [];
-  const pinIcon = L.icon({
-    iconUrl: '../img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-    popupAnchor: [0, -20]
-  });
-  bookings.forEach((booking) => {
-    result.push(L.marker(booking.location, {
-      icon: pinIcon
-    }).bindPopup(generateBookingItem(booking)));
-  });
-  return result;
 };
 
 

@@ -1,6 +1,6 @@
 import {getMinPrice} from './util.js';
 import {OFFER_TYPES} from './data.js';
-import './slider.js'
+import './slider.js';
 
 const form = document.querySelector('.ad-form');
 
