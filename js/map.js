@@ -57,7 +57,7 @@ const mapInit = () => {
 
   mainPinMarker.addTo(map);
 
-  mainPinMarker.on('moveend', (evt) => {
+  mainPinMarker.on('move', (evt) => {
     setAddress(evt.target.getLatLng());
   });
   createMarkers(generateBookings())
