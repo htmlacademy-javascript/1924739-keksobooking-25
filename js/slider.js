@@ -22,6 +22,6 @@ noUiSlider.create(priceSlider, {
   }
 });
 
-priceSlider.noUiSlider.on('update', () => {
+priceSlider.noUiSlider.on('slide', () => {
   priceInput.value = priceSlider.noUiSlider.get();
 });
