@@ -25,3 +25,12 @@ noUiSlider.create(priceSlider, {
 priceSlider.noUiSlider.on('slide', () => {
   priceInput.value = priceSlider.noUiSlider.get();
 });
+
+priceInput.addEventListener('change', (evt) => {
+  const value = evt.target.value;
+  if (value) {
+    priceSlider.noUiSlider.set(value);
+  } else {
+    priceSlider.noUiSlider.set(0);
+  }
+});
