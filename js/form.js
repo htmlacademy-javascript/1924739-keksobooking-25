@@ -1,6 +1,9 @@
 import {getMinPrice} from './util.js';
 import {OFFER_TYPES} from './data.js';
 import './slider.js';
+import {showErrorDialog} from './serverApi.js';
+import {resetSlider} from './slider.js';
+import {mapInit} from './map.js';
 
 const form = document.querySelector('.ad-form');
 
@@ -80,12 +83,47 @@ pristine.addValidator(capacitySelect, validateCapacity, getCapacityError);
 
 roomsSelect.addEventListener('change', () => pristine.validate(capacitySelect));
 
-form.addEventListener('submit', (evt) => {
+const setSubmitDisabled = (value) => {
+  form.querySelector('.ad-form__submit').disabled = value;
+};
+
+form.addEventListener('submit', async (evt) => {
   evt.preventDefault();
 
-  if (pristine.validate()) {
-    form.submit();
+  if (!pristine.validate()) {
+    showErrorDialog(new Error('Не верно заполнены значения формы'));
+    return;
   }
+
+  fetch('https://25.javascript.pages.academy/keksobooking',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      body: new FormData(evt.target)
+    })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw Error(`Не удалось отправить форму: ${response.status} ${response.statusText}`);
+    })
+    .then((result) => {
+      console.log('Успех: ', JSON.stringify(result));
+    })
+    .catch((e) => {
+      console.error('Ошибка: ', e.message, e);
+      showErrorDialog(e);
+    })
+    .finally(() => {
+      setSubmitDisabled(false);
+    });
+});
+
+form.addEventListener('reset', () => {
+  resetSlider();
+  setTimeout(mapInit);
 });
 
 export {formSetEnabled};
