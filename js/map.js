@@ -5,7 +5,7 @@ import {showErrorDialog} from './user-modal.js';
 
 const COORD_DEFAULT = {lat: '35.65283', lng: '139.83948'};
 const createmap = () => L.map('map-canvas');
-let MAP = createmap();
+let map = createmap();
 
 const setAddress = ({lat, lng}) => {
   const addressInput = document.querySelector('#address');
@@ -33,22 +33,22 @@ const createMarkers = (bookings) => {
   return result;
 };
 
-const createBookingMarkers = (map) => {
+const createBookingMarkers = (aMap) => {
   getBookings()
     .then((bookings) => {
       createMarkers(bookings)
-        .forEach((marker) => marker.addTo(map));
+        .forEach((marker) => marker.addTo(aMap));
     }).catch((e) => {
-      showErrorDialog(e, () => createBookingMarkers(map));
+      showErrorDialog(e, () => createBookingMarkers(aMap));
     });
 };
 
 const mapInit = () => {
-  if (MAP) {
-    MAP.remove();
+  if (map) {
+    map.remove();
   }
-  MAP = createmap();
-  MAP.on('load', () => {
+  map = createmap();
+  map.on('load', () => {
     formSetEnabled(true);
     resetMainMarker();
   })
@@ -56,7 +56,7 @@ const mapInit = () => {
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },).addTo(MAP);
+  },).addTo(map);
 
   const mainPinIcon = L.icon({
     iconUrl: '../img/main-pin.svg', iconSize: [52, 52], iconAnchor: [26, 52],
@@ -66,13 +66,13 @@ const mapInit = () => {
     draggable: true, icon: mainPinIcon
   });
 
-  mainPinMarker.addTo(MAP);
+  mainPinMarker.addTo(map);
 
   mainPinMarker.on('move', (evt) => {
     setAddress(evt.target.getLatLng());
   });
 
-  createBookingMarkers(MAP);
+  createBookingMarkers(map);
 };
 
 
