@@ -1,10 +1,10 @@
 import {getMinPrice} from './util.js';
 import {OFFER_TYPES} from './data.js';
 import './slider.js';
-import {postFormData} from './serverApi.js';
+import {postFormData} from './server-api.js';
 import {resetSlider} from './slider.js';
 import {mapInit} from './map.js';
-import {showErrorDialog, showSuccessDialog} from './userModal.js';
+import {showErrorDialog, showSuccessDialog} from './user-modal.js';
 
 const form = document.querySelector('.ad-form');
 
