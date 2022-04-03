@@ -1,9 +1,10 @@
 import {getMinPrice} from './util.js';
 import {OFFER_TYPES} from './data.js';
 import './slider.js';
-import {showErrorDialog} from './serverApi.js';
+import {postFormData} from './serverApi.js';
 import {resetSlider} from './slider.js';
 import {mapInit} from './map.js';
+import {showErrorDialog, showSuccessDialog} from './userModal.js';
 
 const form = document.querySelector('.ad-form');
 
@@ -87,7 +88,7 @@ const setSubmitDisabled = (value) => {
   form.querySelector('.ad-form__submit').disabled = value;
 };
 
-form.addEventListener('submit', async (evt) => {
+form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   if (!pristine.validate()) {
@@ -95,25 +96,17 @@ form.addEventListener('submit', async (evt) => {
     return;
   }
 
-  fetch('https://25.javascript.pages.academy/keksobooking',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
-      body: new FormData(evt.target)
-    })
+  setSubmitDisabled(true);
+
+  postFormData(evt.target)
     .then((response) => {
       if (response.ok) {
-        return response.json();
+        showSuccessDialog(() => form.reset());
+      } else {
+        throw Error(`Не удалось отправить форму: ${response.status} ${response.statusText}`);
       }
-      throw Error(`Не удалось отправить форму: ${response.status} ${response.statusText}`);
-    })
-    .then((result) => {
-      console.log('Успех: ', JSON.stringify(result));
     })
     .catch((e) => {
-      console.error('Ошибка: ', e.message, e);
       showErrorDialog(e);
     })
     .finally(() => {

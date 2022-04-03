@@ -1,6 +1,7 @@
 import {formSetEnabled} from './form.js';
 import {generateBookingItem} from './templates.js';
-import {getBookings, showErrorDialog} from './serverApi.js';
+import {getBookings} from './serverApi.js';
+import {showErrorDialog} from './userModal.js';
 
 const COORD_DEFAULT = {lat: '35.65283', lng: '139.83948'};
 const createmap = () => L.map('map-canvas');
