@@ -1,6 +1,10 @@
 import {getMinPrice} from './util.js';
 import {OFFER_TYPES} from './data.js';
 import './slider.js';
+import {postFormData} from './server-api.js';
+import {resetSlider} from './slider.js';
+import {mapInit} from './map.js';
+import {showErrorDialog, showSuccessDialog} from './user-modal.js';
 
 const form = document.querySelector('.ad-form');
 
@@ -80,12 +84,39 @@ pristine.addValidator(capacitySelect, validateCapacity, getCapacityError);
 
 roomsSelect.addEventListener('change', () => pristine.validate(capacitySelect));
 
+const setSubmitDisabled = (value) => {
+  form.querySelector('.ad-form__submit').disabled = value;
+};
+
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  if (pristine.validate()) {
-    form.submit();
+  if (!pristine.validate()) {
+    showErrorDialog(new Error('Не верно заполнены значения формы'));
+    return;
   }
+
+  setSubmitDisabled(true);
+
+  postFormData(evt.target)
+    .then((response) => {
+      if (response.ok) {
+        showSuccessDialog(() => form.reset());
+      } else {
+        throw Error(`Не удалось отправить форму: ${response.status} ${response.statusText}`);
+      }
+    })
+    .catch((e) => {
+      showErrorDialog(e);
+    })
+    .finally(() => {
+      setSubmitDisabled(false);
+    });
+});
+
+form.addEventListener('reset', () => {
+  resetSlider();
+  setTimeout(mapInit);
 });
 
 export {formSetEnabled};

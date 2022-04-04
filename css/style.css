@@ -974,6 +974,7 @@ fieldset {
 .error__message {
   position: relative;
 
+  padding: 0 10px;
   color: #ffffff;
   font-size: 50px;
   font-weight: 700;

@@ -22,15 +22,20 @@ noUiSlider.create(priceSlider, {
   }
 });
 
-priceSlider.noUiSlider.on('slide', () => {
-  priceInput.value = priceSlider.noUiSlider.get();
-});
-
-priceInput.addEventListener('change', (evt) => {
-  const value = evt.target.value;
+const resetSlider = (value) => {
   if (value) {
     priceSlider.noUiSlider.set(value);
   } else {
     priceSlider.noUiSlider.set(0);
   }
+};
+
+priceSlider.noUiSlider.on('slide', () => {
+  priceInput.value = priceSlider.noUiSlider.get();
 });
+
+priceInput.addEventListener('change', (evt) => {
+  resetSlider(evt.target.value);
+});
+
+export {resetSlider};

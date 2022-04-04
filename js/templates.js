@@ -1,15 +1,21 @@
 import {OFFER_TYPES} from './data.js';
 
 function generateBookingItem({offer, author}) {
-  let featureItems = '';
-  offer.features.forEach((featureName) => {
-    featureItems += `<li class="popup__feature popup__feature--${featureName}"></li>`;
-  });
-  let photos = '';
-  offer.photos.forEach((photo) => {
-    photos += `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
-  });
-  return `<article class="popup">
+  let result;
+  try {
+    let featureItems = '';
+    if (offer.features !== undefined) {
+      offer.features.forEach((featureName) => {
+        featureItems += `<li class="popup__feature popup__feature--${featureName}"></li>`;
+      });
+    }
+    let photos = '';
+    if (offer.photos !== undefined) {
+      offer.photos.forEach((photo) => {
+        photos += `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
+      });
+    }
+    result = `<article class="popup">
       <img src="${author.avatar}" class="popup__avatar" width="70" height="70" alt="Аватар пользователя">
       <h3 class="popup__title">${offer.title}</h3>
       <p class="popup__text popup__text--address">${offer.address}</p>
@@ -24,6 +30,10 @@ function generateBookingItem({offer, author}) {
         ${photos}
       </div>
     </article>`;
+  } catch (e) {
+    result = '<article class="popup"></article>';
+  }
+  return result;
 }
 
 export {generateBookingItem};
