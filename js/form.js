@@ -1,5 +1,4 @@
-import {getMinPrice} from './util.js';
-import {OFFER_TYPES} from './data.js';
+import {getMinPrice, OFFER_TYPES} from './util.js';
 import './slider.js';
 import {postFormData} from './server-api.js';
 import {resetSlider} from './slider.js';
@@ -8,28 +7,28 @@ import {showErrorDialog, showSuccessDialog} from './user-modal.js';
 
 const form = document.querySelector('.ad-form');
 
-const formNoticeSetEnabled = (enable) => {
-  if (enable) {
-    form.classList.remove('ad-form--disabled');
-  } else {
-    form.classList.add('ad-form--disabled');
-  }
-  form.querySelectorAll('fieldset').forEach((fieldSet) => {
-    fieldSet.disabled = !enable;
-  });
-};
-
-const formFilterSetEnabled = (enable) => {
-  const mapFilter = document.querySelector('.map__filters');
-  if (enable) {
-    mapFilter.classList.remove('map__filter--disabled');
-  } else {
-    mapFilter.classList.add('map__filter--disabled');
-  }
-  mapFilter.querySelectorAll('select').forEach((select) => {
-    select.disabled = !enable;
-  });
-};
+// const formNoticeSetEnabled = (enable) => {
+//   if (enable) {
+//     form.classList.remove('ad-form--disabled');
+//   } else {
+//     form.classList.add('ad-form--disabled');
+//   }
+//   form.querySelectorAll('fieldset').forEach((fieldSet) => {
+//     fieldSet.disabled = !enable;
+//   });
+// };
+//
+// const formFilterSetEnabled = (enable) => {
+//   const mapFilter = document.querySelector('.map__filters');
+//   if (enable) {
+//     mapFilter.classList.remove('map__filter--disabled');
+//   } else {
+//     mapFilter.classList.add('map__filter--disabled');
+//   }
+//   mapFilter.querySelectorAll('select').forEach((select) => {
+//     select.disabled = !enable;
+//   });
+// };
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -155,4 +154,4 @@ const filterBooking = ({offer}) => {
     (!feature.checked || offer.features.some((f) => feature.id.endsWith(`-${f}`))));
 };
 
-export {formNoticeSetEnabled, formFilterSetEnabled, filterBooking};
+export {filterBooking};

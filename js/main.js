@@ -1,4 +1,4 @@
-import {formFilterSetEnabled, formNoticeSetEnabled} from './form.js';
+import {formFilterSetEnabled, formNoticeSetEnabled} from './form-util.js';
 import {mapInit} from './map.js';
 
 formNoticeSetEnabled(false);

@@ -1,7 +1,8 @@
-import {filterBooking, formFilterSetEnabled, formNoticeSetEnabled} from './form.js';
+import {filterBooking} from './form.js';
 import {generateBookingItem} from './templates.js';
 import {fetchBookings} from './server-api.js';
 import {showErrorDialog} from './user-modal.js';
+import {formFilterSetEnabled, formNoticeSetEnabled} from './form-util.js';
 
 const COORD_DEFAULT = {lat: '35.65283', lng: '139.83948'};
 const createmap = () => L.map('map-canvas');
