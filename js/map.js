@@ -3,6 +3,7 @@ import {generateBookingItem} from './templates.js';
 import {fetchBookings} from './server-api.js';
 import {showErrorDialog} from './user-modal.js';
 import {formFilterSetEnabled, formNoticeSetEnabled} from './form-util.js';
+import {debounce} from './util.js';
 
 const COORD_DEFAULT = {lat: '35.65283', lng: '139.83948'};
 const createmap = () => L.map('map-canvas');
@@ -88,7 +89,7 @@ const mapInit = () => {
   const filters = document.querySelector('.map__filters');
 
   filters.addEventListener('change', () => {
-    createBookingMarkers(map);
+    debounce(createBookingMarkers)(map);
   });
 };
 
