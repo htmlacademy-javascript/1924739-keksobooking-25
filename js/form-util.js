@@ -20,6 +20,9 @@ const formFilterSetEnabled = (enable) => {
   mapFilter.querySelectorAll('select').forEach((select) => {
     select.disabled = !enable;
   });
+  mapFilter.querySelectorAll('input[type=checkbox]').forEach((select) => {
+    select.disabled = !enable;
+  });
 };
 
 export {formNoticeSetEnabled, formFilterSetEnabled};
