@@ -1,11 +1,12 @@
-import {formSetEnabled} from './form.js';
+import {filterBooking, formFilterSetEnabled, formNoticeSetEnabled} from './form.js';
 import {generateBookingItem} from './templates.js';
-import {getBookings} from './server-api.js';
+import {fetchBookings} from './server-api.js';
 import {showErrorDialog} from './user-modal.js';
 
 const COORD_DEFAULT = {lat: '35.65283', lng: '139.83948'};
 const createmap = () => L.map('map-canvas');
 let map = createmap();
+const markerGroup = L.layerGroup().addTo(map);
 
 const setAddress = ({lat, lng}) => {
   const addressInput = document.querySelector('#address');
@@ -26,20 +27,28 @@ const createMarkers = (bookings) => {
     iconUrl: '../img/pin.svg', iconSize: [40, 40], iconAnchor: [20, 40], popupAnchor: [0, -20]
   });
   bookings.forEach((booking) => {
-    result.push(L.marker(booking.location, {
+    const marker = L.marker(booking.location, {
       icon: pinIcon
-    }).bindPopup(generateBookingItem(booking)));
+    });
+    marker.bindPopup(generateBookingItem(booking));
+    result.push(marker);
   });
   return result;
 };
 
 const createBookingMarkers = (aMap) => {
-  getBookings()
+  formFilterSetEnabled(false);
+  fetchBookings()
     .then((bookings) => {
-      createMarkers(bookings)
-        .forEach((marker) => marker.addTo(aMap));
-    }).catch((e) => {
+      const filtered = bookings.filter(filterBooking).slice(0, 10);
+      markerGroup.clearLayers();
+      createMarkers(filtered).forEach((m) => m.addTo(markerGroup));
+    })
+    .catch((e) => {
       showErrorDialog(e, () => createBookingMarkers(aMap));
+    })
+    .finally(() => {
+      formFilterSetEnabled(true);
     });
 };
 
@@ -48,9 +57,12 @@ const mapInit = () => {
     map.remove();
   }
   map = createmap();
+  markerGroup.addTo(map);
+
   map.on('load', () => {
-    formSetEnabled(true);
+    formNoticeSetEnabled(true);
     resetMainMarker();
+    createBookingMarkers(map);
   })
     .setView(COORD_DEFAULT, 12);
 
@@ -72,7 +84,11 @@ const mapInit = () => {
     setAddress(evt.target.getLatLng());
   });
 
-  createBookingMarkers(map);
+  const filters = document.querySelector('.map__filters');
+
+  filters.addEventListener('change', () => {
+    createBookingMarkers(map);
+  });
 };
 
 

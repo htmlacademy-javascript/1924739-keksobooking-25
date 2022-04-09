@@ -8,21 +8,26 @@ import {showErrorDialog, showSuccessDialog} from './user-modal.js';
 
 const form = document.querySelector('.ad-form');
 
-const formSetEnabled = (enable) => {
-  const mapFilter = document.querySelector('form .map__filter');
+const formNoticeSetEnabled = (enable) => {
   if (enable) {
     form.classList.remove('ad-form--disabled');
-    mapFilter.classList.remove('map__filter--disabled');
-
   } else {
     form.classList.add('ad-form--disabled');
-    mapFilter.classList.add('map__filter--disabled');
   }
   form.querySelectorAll('fieldset').forEach((fieldSet) => {
     fieldSet.disabled = !enable;
   });
-  mapFilter.querySelectorAll('fieldset').forEach((fieldSet) => {
-    fieldSet.disabled = !enable;
+};
+
+const formFilterSetEnabled = (enable) => {
+  const mapFilter = document.querySelector('.map__filters');
+  if (enable) {
+    mapFilter.classList.remove('map__filter--disabled');
+  } else {
+    mapFilter.classList.add('map__filter--disabled');
+  }
+  mapFilter.querySelectorAll('select').forEach((select) => {
+    select.disabled = !enable;
   });
 };
 
@@ -119,4 +124,35 @@ form.addEventListener('reset', () => {
   setTimeout(mapInit);
 });
 
-export {formSetEnabled};
+const filterBooking = ({offer}) => {
+  const filters = document.querySelector('.map__filters');
+
+  const Prices = {
+    ANY: [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY],
+    MIDDLE: [10000, 50000],
+    LOW: [0, 10000],
+    HIGH: [50000, Number.POSITIVE_INFINITY]
+  };
+
+  const typeMatcher = (type) => type === offer.type;
+  const priceMatcher = (price) => offer.price >= Prices[price.toUpperCase()][0] && offer.price <= Prices[price.toUpperCase()][1];
+  const roomMatcher = (rooms) => +rooms === offer.rooms;
+  const guestsMatcher = (guests) => +guests === offer.guests;
+
+  const housingMatch = (attribute, matcherFn) => {
+    const attrValue = filters.querySelector(`#housing-${attribute}`).value;
+    return attrValue === 'any' || matcherFn(attrValue);
+  };
+
+  if (!housingMatch('type', typeMatcher) || !housingMatch('price', priceMatcher)
+    || !housingMatch('rooms', roomMatcher) || !housingMatch('guests', guestsMatcher)) {
+    return false;
+  }
+
+  const featureElements = Array.from(filters.querySelectorAll('[id^=filter]'));
+
+  return featureElements.every((feature) => offer.features &&
+    (!feature.checked || offer.features.some((f) => feature.id.endsWith(`-${f}`))));
+};
+
+export {formNoticeSetEnabled, formFilterSetEnabled, filterBooking};
