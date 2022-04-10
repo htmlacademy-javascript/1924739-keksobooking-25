@@ -1,5 +1,6 @@
-import {formSetEnabled} from './form.js';
+import {formFilterSetEnabled, formNoticeSetEnabled} from './form-util.js';
 import {mapInit} from './map.js';
 
-formSetEnabled(false);
+formNoticeSetEnabled(false);
+formFilterSetEnabled(false);
 mapInit();

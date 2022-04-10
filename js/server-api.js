@@ -1,4 +1,4 @@
-const getBookings = () => fetch('https://25.javascript.pages.academy/keksobooking/data')
+const fetchBookings = () => fetch('https://25.javascript.pages.academy/keksobooking/data')
   .then((data) => data.json())
   .catch((e) => {
     throw new Error(`Ошибка при попытке запроса данных с сервера: ${e.message}`);
@@ -10,4 +10,4 @@ const postFormData = (form) => fetch('https://25.javascript.pages.academy/keksob
     body: new FormData(form)
   });
 
-export {getBookings, postFormData};
+export {fetchBookings, postFormData};

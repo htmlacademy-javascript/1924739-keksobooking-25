@@ -59,6 +59,22 @@ const getMinPrice = (accommodationType) => {
   }
 };
 
+const OFFER_TYPES = {
+  'flat': 'Квартира',
+  'bungalow': 'Бунгало',
+  'house': 'Дом',
+  'palace': 'Дворец',
+  'hotel': 'Отель'
+};
+
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
 const padZero = (num) => num.toString().length <= 1 ? `0${num}` : num;
 
-export {getRandomInt, getRandom, getRandomElement, getRandomString, padZero, getMinPrice};
+export {getRandomInt, getRandom, getRandomElement, getRandomString, padZero, getMinPrice, debounce, OFFER_TYPES};

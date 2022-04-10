@@ -1,5 +1,4 @@
-import {getMinPrice} from './util.js';
-import {OFFER_TYPES} from './data.js';
+import {getMinPrice, OFFER_TYPES} from './util.js';
 import './slider.js';
 import {postFormData} from './server-api.js';
 import {resetSlider} from './slider.js';
@@ -8,23 +7,28 @@ import {showErrorDialog, showSuccessDialog} from './user-modal.js';
 
 const form = document.querySelector('.ad-form');
 
-const formSetEnabled = (enable) => {
-  const mapFilter = document.querySelector('form .map__filter');
-  if (enable) {
-    form.classList.remove('ad-form--disabled');
-    mapFilter.classList.remove('map__filter--disabled');
-
-  } else {
-    form.classList.add('ad-form--disabled');
-    mapFilter.classList.add('map__filter--disabled');
-  }
-  form.querySelectorAll('fieldset').forEach((fieldSet) => {
-    fieldSet.disabled = !enable;
-  });
-  mapFilter.querySelectorAll('fieldset').forEach((fieldSet) => {
-    fieldSet.disabled = !enable;
-  });
-};
+// const formNoticeSetEnabled = (enable) => {
+//   if (enable) {
+//     form.classList.remove('ad-form--disabled');
+//   } else {
+//     form.classList.add('ad-form--disabled');
+//   }
+//   form.querySelectorAll('fieldset').forEach((fieldSet) => {
+//     fieldSet.disabled = !enable;
+//   });
+// };
+//
+// const formFilterSetEnabled = (enable) => {
+//   const mapFilter = document.querySelector('.map__filters');
+//   if (enable) {
+//     mapFilter.classList.remove('map__filter--disabled');
+//   } else {
+//     mapFilter.classList.add('map__filter--disabled');
+//   }
+//   mapFilter.querySelectorAll('select').forEach((select) => {
+//     select.disabled = !enable;
+//   });
+// };
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -119,4 +123,35 @@ form.addEventListener('reset', () => {
   setTimeout(mapInit);
 });
 
-export {formSetEnabled};
+const filterBooking = ({offer}) => {
+  const filters = document.querySelector('.map__filters');
+
+  const Prices = {
+    ANY: [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY],
+    MIDDLE: [10000, 50000],
+    LOW: [0, 10000],
+    HIGH: [50000, Number.POSITIVE_INFINITY]
+  };
+
+  const typeMatches = (type) => type === offer.type;
+  const priceMatches = (price) => offer.price >= Prices[price.toUpperCase()][0] && offer.price <= Prices[price.toUpperCase()][1];
+  const roomMatches = (rooms) => +rooms === offer.rooms;
+  const guestsMatches = (guests) => +guests === offer.guests;
+
+  const housingMatches = (attribute, matcherFn) => {
+    const attrValue = filters.querySelector(`#housing-${attribute}`).value;
+    return attrValue === 'any' || matcherFn(attrValue);
+  };
+
+  if (!housingMatches('type', typeMatches) || !housingMatches('price', priceMatches)
+    || !housingMatches('rooms', roomMatches) || !housingMatches('guests', guestsMatches)) {
+    return false;
+  }
+
+  const featureElements = Array.from(filters.querySelectorAll('[id^=filter]'));
+
+  return featureElements.every((feature) => offer.features &&
+    (!feature.checked || offer.features.some((f) => feature.value === f)));
+};
+
+export {filterBooking};
