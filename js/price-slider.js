@@ -46,4 +46,9 @@ input.addEventListener('change', (evt) => {
   resetSlider(evt.target.value);
 });
 
-export {resetSlider, sliderSetDisabled};
+const setOnSliderChangeHandler = (handler) => {
+  slider.noUiSlider.on('slide', handler);
+  input.addEventListener('change', handler);
+};
+
+export {resetSlider, sliderSetDisabled, setOnSliderChangeHandler};

@@ -1,6 +1,6 @@
 import {getMinPrice, OFFER_TYPES} from './util.js';
 import {postFormData} from './server-api.js';
-import {resetSlider} from './price-slider.js';
+import {resetSlider, setOnSliderChangeHandler} from './price-slider.js';
 import {mapInit} from './map.js';
 import {showErrorDialog, showSuccessDialog} from './user-modal.js';
 import {clearImagesPreview} from './form-file-chooser.js';
@@ -27,6 +27,10 @@ pristine.addValidator(priceInput, validatePrice, getPriceErrorMessage);
 
 accommodationTypeSelect.addEventListener('change', (evt) => {
   priceInput.placeholder = getMinPrice(evt.target.value);
+  pristine.validate(priceInput);
+});
+
+setOnSliderChangeHandler(() => {
   pristine.validate(priceInput);
 });
 
