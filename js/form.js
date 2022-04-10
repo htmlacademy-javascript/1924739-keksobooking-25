@@ -4,31 +4,9 @@ import {postFormData} from './server-api.js';
 import {resetSlider} from './slider.js';
 import {mapInit} from './map.js';
 import {showErrorDialog, showSuccessDialog} from './user-modal.js';
+import {clearImagesPreview} from './form-file-chooser.js';
 
 const form = document.querySelector('.ad-form');
-
-// const formNoticeSetEnabled = (enable) => {
-//   if (enable) {
-//     form.classList.remove('ad-form--disabled');
-//   } else {
-//     form.classList.add('ad-form--disabled');
-//   }
-//   form.querySelectorAll('fieldset').forEach((fieldSet) => {
-//     fieldSet.disabled = !enable;
-//   });
-// };
-//
-// const formFilterSetEnabled = (enable) => {
-//   const mapFilter = document.querySelector('.map__filters');
-//   if (enable) {
-//     mapFilter.classList.remove('map__filter--disabled');
-//   } else {
-//     mapFilter.classList.add('map__filter--disabled');
-//   }
-//   mapFilter.querySelectorAll('select').forEach((select) => {
-//     select.disabled = !enable;
-//   });
-// };
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -92,6 +70,11 @@ const setSubmitDisabled = (value) => {
   form.querySelector('.ad-form__submit').disabled = value;
 };
 
+const resetForm = () => {
+  form.reset();
+  clearImagesPreview();
+};
+
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
@@ -105,7 +88,7 @@ form.addEventListener('submit', (evt) => {
   postFormData(evt.target)
     .then((response) => {
       if (response.ok) {
-        showSuccessDialog(() => form.reset());
+        showSuccessDialog(resetForm);
       } else {
         throw Error(`Не удалось отправить форму: ${response.status} ${response.statusText}`);
       }
