@@ -151,7 +151,7 @@ const filterBooking = ({offer}) => {
   const featureElements = Array.from(filters.querySelectorAll('[id^=filter]'));
 
   return featureElements.every((feature) => offer.features &&
-    (!feature.checked || offer.features.some((f) => feature.id.endsWith(`-${f}`))));
+    (!feature.checked || offer.features.some((f) => feature.value === f)));
 };
 
 export {filterBooking};
