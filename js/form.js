@@ -114,7 +114,7 @@ form.addEventListener('reset', () => {
 const filterBooking = ({offer}) => {
   const filters = document.querySelector('.map__filters');
 
-  const Prices = {
+  const PRICES = {
     ANY: [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY],
     MIDDLE: [10000, 50000],
     LOW: [0, 10000],
@@ -122,7 +122,7 @@ const filterBooking = ({offer}) => {
   };
 
   const typeMatches = (type) => type === offer.type;
-  const priceMatches = (price) => offer.price >= Prices[price.toUpperCase()][0] && offer.price <= Prices[price.toUpperCase()][1];
+  const priceMatches = (price) => offer.price >= PRICES[price.toUpperCase()][0] && offer.price <= PRICES[price.toUpperCase()][1];
   const roomMatches = (rooms) => +rooms === offer.rooms;
   const guestsMatches = (guests) => +guests === offer.guests;
 
