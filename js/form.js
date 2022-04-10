@@ -4,6 +4,7 @@ import {resetSlider, setOnSliderChangeHandler} from './price-slider.js';
 import {mapInit} from './map.js';
 import {showErrorDialog, showSuccessDialog} from './user-modal.js';
 import {clearImagesPreview} from './form-file-chooser.js';
+import {resetFormFilters} from './form-util.js';
 
 const form = document.querySelector('.ad-form');
 
@@ -76,6 +77,7 @@ const setSubmitDisabled = (value) => {
 const resetForm = () => {
   form.reset();
   clearImagesPreview();
+  resetFormFilters();
 };
 
 form.addEventListener('submit', (evt) => {

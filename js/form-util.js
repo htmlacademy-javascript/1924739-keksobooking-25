@@ -24,9 +24,19 @@ const formFilterSetEnabled = (enable) => {
   mapFilter.querySelectorAll('select').forEach((select) => {
     select.disabled = !enable;
   });
-  mapFilter.querySelectorAll('input[type=checkbox]').forEach((select) => {
-    select.disabled = !enable;
+  mapFilter.querySelectorAll('input[type=checkbox]').forEach((checkbox) => {
+    checkbox.disabled = !enable;
   });
 };
 
-export {formNoticeSetEnabled, formFilterSetEnabled};
+const resetFormFilters = () => {
+  const mapFilter = document.querySelector('.map__filters');
+  mapFilter.querySelectorAll('select').forEach((select) => {
+    select.value = 'any';
+  });
+  mapFilter.querySelectorAll('input[type=checkbox]').forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+};
+
+export {formNoticeSetEnabled, formFilterSetEnabled, resetFormFilters};
