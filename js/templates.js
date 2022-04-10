@@ -25,7 +25,7 @@ function generateBookingItem({offer, author}) {
       <p class="popup__text popup__text--time">Заезд после ${offer.checkin}, выезд до ${offer.checkout}</p>
       <ul class="popup__features" style="display: ${featureItems.length > 0 ? 'initial' : 'none'}">
       </ul>
-      <p class="popup__description">${offer.description ? offer.description : ''}</p>
+      ${offer.description ? `<p class="popup__description">${offer.description}</p>` : ''}
       <div class="popup__photos">
         ${photos}
       </div>
