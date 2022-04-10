@@ -1,10 +1,10 @@
 import {getMinPrice, OFFER_TYPES} from './util.js';
-import './slider.js';
-import {postFormData} from './server-api.js';
-import {resetSlider} from './slider.js';
+import {postFormData} from './server-fetch.js';
+import {resetSlider, setPriceSliderChangeHandler} from './price-slider.js';
 import {mapInit} from './map.js';
 import {showErrorDialog, showSuccessDialog} from './user-modal.js';
 import {clearImagesPreview} from './form-file-chooser.js';
+import {resetFormFilters} from './form-util.js';
 
 const form = document.querySelector('.ad-form');
 
@@ -28,6 +28,10 @@ pristine.addValidator(priceInput, validatePrice, getPriceErrorMessage);
 
 accommodationTypeSelect.addEventListener('change', (evt) => {
   priceInput.placeholder = getMinPrice(evt.target.value);
+  pristine.validate(priceInput);
+});
+
+setPriceSliderChangeHandler(() => {
   pristine.validate(priceInput);
 });
 
@@ -73,13 +77,14 @@ const setSubmitDisabled = (value) => {
 const resetForm = () => {
   form.reset();
   clearImagesPreview();
+  resetFormFilters();
 };
 
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   if (!pristine.validate()) {
-    showErrorDialog(new Error('Не верно заполнены значения формы'));
+    showErrorDialog('Не верно заполнены значения формы');
     return;
   }
 
@@ -94,7 +99,7 @@ form.addEventListener('submit', (evt) => {
       }
     })
     .catch((e) => {
-      showErrorDialog(e);
+      showErrorDialog(`Ошибка размещения объявления: ${e.message}`);
     })
     .finally(() => {
       setSubmitDisabled(false);
@@ -107,17 +112,17 @@ form.addEventListener('reset', () => {
 });
 
 const filterBooking = ({offer}) => {
-  const filters = document.querySelector('.map__filters');
-
-  const Prices = {
+  const PRICES = {
     ANY: [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY],
     MIDDLE: [10000, 50000],
     LOW: [0, 10000],
     HIGH: [50000, Number.POSITIVE_INFINITY]
   };
 
+  const filters = document.querySelector('.map__filters');
+
   const typeMatches = (type) => type === offer.type;
-  const priceMatches = (price) => offer.price >= Prices[price.toUpperCase()][0] && offer.price <= Prices[price.toUpperCase()][1];
+  const priceMatches = (price) => offer.price >= PRICES[price.toUpperCase()][0] && offer.price <= PRICES[price.toUpperCase()][1];
   const roomMatches = (rooms) => +rooms === offer.rooms;
   const guestsMatches = (guests) => +guests === offer.guests;
 

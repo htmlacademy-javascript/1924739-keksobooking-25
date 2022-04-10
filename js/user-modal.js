@@ -30,10 +30,10 @@ const addDialogCloseHandler = (dialog, onDialogClose) => {
   window.addEventListener('click', onMouseClick);
 };
 
-const showErrorDialog = (error, onRetryAction) => {
+const showErrorDialog = (errorMessage, onRetryAction) => {
   const mainElement = document.querySelector('body');
-  const dialog = createElement(`<div class="error"><p class="error__message">Ошибка размещения объявления.${error
-    ? `<br>${error.message}` : ''}</p></div>`);
+  const dialog = createElement(`<div class="error"><p class="error__message">${errorMessage ?
+    `<br>${errorMessage}` : ''}</p></div>`);
 
   const closeButton = createElement(`<button type="button" class="error__button">${onRetryAction === undefined
     ? 'Понятно'

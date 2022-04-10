@@ -1,6 +1,6 @@
 import {filterBooking} from './form.js';
 import {generateBookingItem} from './templates.js';
-import {fetchBookings} from './server-api.js';
+import {fetchBookings} from './server-fetch.js';
 import {showErrorDialog} from './user-modal.js';
 import {formFilterSetEnabled, formNoticeSetEnabled} from './form-util.js';
 import {debounce} from './util.js';
@@ -46,12 +46,10 @@ const createBookingMarkers = (aMap) => {
       const filtered = bookings.filter(filterBooking).slice(0, MAX_BOOKINGS_NUMBER);
       markerGroup.clearLayers();
       createMarkers(filtered).forEach((m) => m.addTo(markerGroup));
+      formFilterSetEnabled(true);
     })
     .catch((e) => {
-      showErrorDialog(e, () => createBookingMarkers(aMap));
-    })
-    .finally(() => {
-      formFilterSetEnabled(true);
+      showErrorDialog(e.message, () => createBookingMarkers(aMap));
     });
 };
 
