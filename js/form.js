@@ -1,5 +1,5 @@
 import {getMinPrice, OFFER_TYPES} from './util.js';
-import {postFormData} from './server-api.js';
+import {postFormData} from './server-fetch.js';
 import {resetSlider, setOnSliderChangeHandler} from './price-slider.js';
 import {mapInit} from './map.js';
 import {showErrorDialog, showSuccessDialog} from './user-modal.js';
@@ -84,7 +84,7 @@ form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   if (!pristine.validate()) {
-    showErrorDialog(new Error('Не верно заполнены значения формы'));
+    showErrorDialog('Не верно заполнены значения формы');
     return;
   }
 
@@ -99,7 +99,7 @@ form.addEventListener('submit', (evt) => {
       }
     })
     .catch((e) => {
-      showErrorDialog(e);
+      showErrorDialog(`Ошибка размещения объявления: ${e.message}`);
     })
     .finally(() => {
       setSubmitDisabled(false);
