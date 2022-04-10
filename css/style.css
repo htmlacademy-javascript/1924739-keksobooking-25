@@ -980,6 +980,10 @@ fieldset {
   font-weight: 700;
 }
 
+.form__error {
+  color: #ff5635;
+}
+
 .success__message::before,
 .error__message::before {
   content: "";
