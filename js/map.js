@@ -6,6 +6,7 @@ import {formFilterSetEnabled, formNoticeSetEnabled} from './form-util.js';
 import {debounce} from './util.js';
 
 const COORD_DEFAULT = {lat: '35.65283', lng: '139.83948'};
+const MAX_BOOKINGS_NUMBER = 10;
 const createmap = () => L.map('map-canvas');
 let map = createmap();
 const markerGroup = L.layerGroup().addTo(map);
@@ -42,7 +43,7 @@ const createBookingMarkers = (aMap) => {
   formFilterSetEnabled(false);
   fetchBookings()
     .then((bookings) => {
-      const filtered = bookings.filter(filterBooking).slice(0, 10);
+      const filtered = bookings.filter(filterBooking).slice(0, MAX_BOOKINGS_NUMBER);
       markerGroup.clearLayers();
       createMarkers(filtered).forEach((m) => m.addTo(markerGroup));
     })
@@ -53,6 +54,8 @@ const createBookingMarkers = (aMap) => {
       formFilterSetEnabled(true);
     });
 };
+
+const createMarkersDebounced = debounce(createBookingMarkers);
 
 const mapInit = () => {
   if (map) {
@@ -89,7 +92,7 @@ const mapInit = () => {
   const filters = document.querySelector('.map__filters');
 
   filters.addEventListener('change', () => {
-    debounce(createBookingMarkers)(map);
+    createMarkersDebounced(map);
   });
 };
 
