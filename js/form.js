@@ -133,18 +133,18 @@ const filterBooking = ({offer}) => {
     HIGH: [50000, Number.POSITIVE_INFINITY]
   };
 
-  const typeMatcher = (type) => type === offer.type;
-  const priceMatcher = (price) => offer.price >= Prices[price.toUpperCase()][0] && offer.price <= Prices[price.toUpperCase()][1];
-  const roomMatcher = (rooms) => +rooms === offer.rooms;
-  const guestsMatcher = (guests) => +guests === offer.guests;
+  const typeMatches = (type) => type === offer.type;
+  const priceMatches = (price) => offer.price >= Prices[price.toUpperCase()][0] && offer.price <= Prices[price.toUpperCase()][1];
+  const roomMatches = (rooms) => +rooms === offer.rooms;
+  const guestsMatches = (guests) => +guests === offer.guests;
 
-  const housingMatch = (attribute, matcherFn) => {
+  const housingMatches = (attribute, matcherFn) => {
     const attrValue = filters.querySelector(`#housing-${attribute}`).value;
     return attrValue === 'any' || matcherFn(attrValue);
   };
 
-  if (!housingMatch('type', typeMatcher) || !housingMatch('price', priceMatcher)
-    || !housingMatch('rooms', roomMatcher) || !housingMatch('guests', guestsMatcher)) {
+  if (!housingMatches('type', typeMatches) || !housingMatches('price', priceMatches)
+    || !housingMatches('rooms', roomMatches) || !housingMatches('guests', guestsMatches)) {
     return false;
   }
 
