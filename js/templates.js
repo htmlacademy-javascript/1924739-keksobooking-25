@@ -1,4 +1,4 @@
-import {OFFER_TYPES} from './data.js';
+import {OFFER_TYPES} from './util.js';
 
 function generateBookingItem({offer, author}) {
   let result;
