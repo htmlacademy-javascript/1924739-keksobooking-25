@@ -28,7 +28,7 @@ const formFilterSetEnabled = (enable) => {
   });
 };
 
-const resetFormFilters = () => {
+const resetMapFilters = () => {
   const mapFilter = document.querySelector('.map__filters');
   mapFilter.querySelectorAll('select').forEach((select) => {
     select.value = 'any';
@@ -38,4 +38,4 @@ const resetFormFilters = () => {
   });
 };
 
-export {formNoticeSetEnabled, formFilterSetEnabled, resetFormFilters};
+export {formNoticeSetEnabled, formFilterSetEnabled, resetMapFilters};

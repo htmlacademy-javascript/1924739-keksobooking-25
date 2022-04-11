@@ -4,7 +4,7 @@ import {resetSlider, setPriceSliderChangeHandler} from './price-slider.js';
 import {mapInit} from './map.js';
 import {showErrorDialog, showSuccessDialog} from './user-modal.js';
 import {clearImagesPreview} from './form-file-chooser.js';
-import {resetFormFilters} from './form-util.js';
+import {resetMapFilters} from './form-util.js';
 
 const form = document.querySelector('.ad-form');
 
@@ -74,10 +74,9 @@ const setSubmitDisabled = (value) => {
   form.querySelector('.ad-form__submit').disabled = value;
 };
 
-const resetForm = () => {
+const resetFormAndFilters = () => {
   form.reset();
-  clearImagesPreview();
-  resetFormFilters();
+  resetMapFilters();
 };
 
 form.addEventListener('submit', (evt) => {
@@ -92,7 +91,7 @@ form.addEventListener('submit', (evt) => {
   postFormData(evt.target)
     .then((response) => {
       if (response.ok) {
-        showSuccessDialog(resetForm);
+        showSuccessDialog(resetFormAndFilters);
       } else {
         throw Error(`Не удалось отправить форму: ${response.status} ${response.statusText}`);
       }
@@ -108,6 +107,7 @@ form.addEventListener('submit', (evt) => {
 form.addEventListener('reset', () => {
   resetSlider();
   setTimeout(mapInit);
+  clearImagesPreview();
 });
 
 const filterBooking = ({offer}) => {
