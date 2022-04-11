@@ -4,11 +4,10 @@ const formNoticeSetEnabled = (enable) => {
   const form = document.querySelector('.ad-form');
   if (enable) {
     form.classList.remove('ad-form--disabled');
-    sliderSetDisabled(false);
   } else {
     form.classList.add('ad-form--disabled');
-    sliderSetDisabled(true);
   }
+  sliderSetDisabled(!enable);
   form.querySelectorAll('fieldset').forEach((fieldSet) => {
     fieldSet.disabled = !enable;
   });
@@ -29,7 +28,7 @@ const formFilterSetEnabled = (enable) => {
   });
 };
 
-const resetFormFilters = () => {
+const resetMapFilters = () => {
   const mapFilter = document.querySelector('.map__filters');
   mapFilter.querySelectorAll('select').forEach((select) => {
     select.value = 'any';
@@ -39,4 +38,4 @@ const resetFormFilters = () => {
   });
 };
 
-export {formNoticeSetEnabled, formFilterSetEnabled, resetFormFilters};
+export {formNoticeSetEnabled, formFilterSetEnabled, resetMapFilters};

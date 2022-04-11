@@ -4,7 +4,7 @@ import {resetSlider, setPriceSliderChangeHandler} from './price-slider.js';
 import {mapInit} from './map.js';
 import {showErrorDialog, showSuccessDialog} from './user-modal.js';
 import {clearImagesPreview} from './form-file-chooser.js';
-import {resetFormFilters} from './form-util.js';
+import {resetMapFilters} from './form-util.js';
 
 const form = document.querySelector('.ad-form');
 
@@ -74,17 +74,15 @@ const setSubmitDisabled = (value) => {
   form.querySelector('.ad-form__submit').disabled = value;
 };
 
-const resetForm = () => {
+const resetFormAndFilters = () => {
   form.reset();
-  clearImagesPreview();
-  resetFormFilters();
+  resetMapFilters();
 };
 
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   if (!pristine.validate()) {
-    showErrorDialog('Не верно заполнены значения формы');
     return;
   }
 
@@ -93,7 +91,7 @@ form.addEventListener('submit', (evt) => {
   postFormData(evt.target)
     .then((response) => {
       if (response.ok) {
-        showSuccessDialog(resetForm);
+        showSuccessDialog(resetFormAndFilters);
       } else {
         throw Error(`Не удалось отправить форму: ${response.status} ${response.statusText}`);
       }
@@ -109,6 +107,7 @@ form.addEventListener('submit', (evt) => {
 form.addEventListener('reset', () => {
   resetSlider();
   setTimeout(mapInit);
+  clearImagesPreview();
 });
 
 const filterBooking = ({offer}) => {
@@ -121,18 +120,18 @@ const filterBooking = ({offer}) => {
 
   const filters = document.querySelector('.map__filters');
 
-  const typeMatches = (type) => type === offer.type;
-  const priceMatches = (price) => offer.price >= PRICES[price.toUpperCase()][0] && offer.price <= PRICES[price.toUpperCase()][1];
-  const roomMatches = (rooms) => +rooms === offer.rooms;
-  const guestsMatches = (guests) => +guests === offer.guests;
+  const checkType = (type) => type === offer.type;
+  const checkPrice = (price) => offer.price >= PRICES[price.toUpperCase()][0] && offer.price <= PRICES[price.toUpperCase()][1];
+  const checkRooms = (rooms) => +rooms === offer.rooms;
+  const checkGuests = (guests) => +guests === offer.guests;
 
   const housingMatches = (attribute, matcherFn) => {
     const attrValue = filters.querySelector(`#housing-${attribute}`).value;
     return attrValue === 'any' || matcherFn(attrValue);
   };
 
-  if (!housingMatches('type', typeMatches) || !housingMatches('price', priceMatches)
-    || !housingMatches('rooms', roomMatches) || !housingMatches('guests', guestsMatches)) {
+  if (!housingMatches('type', checkType) || !housingMatches('price', checkPrice)
+    || !housingMatches('rooms', checkRooms) || !housingMatches('guests', checkGuests)) {
     return false;
   }
 
