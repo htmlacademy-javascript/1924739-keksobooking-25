@@ -84,7 +84,6 @@ form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   if (!pristine.validate()) {
-    showErrorDialog('Не верно заполнены значения формы');
     return;
   }
 
