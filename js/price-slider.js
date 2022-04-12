@@ -31,11 +31,7 @@ const resetSlider = (value) => {
 };
 
 const sliderSetDisabled = (disabled) => {
-  if (disabled) {
-    slider.setAttribute('disabled', true);
-  } else {
-    slider.removeAttribute('disabled');
-  }
+  slider.disabled = disabled;
 };
 
 slider.noUiSlider.on('slide', () => {
