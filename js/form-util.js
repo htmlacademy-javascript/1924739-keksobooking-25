@@ -1,7 +1,9 @@
 import {sliderSetDisabled} from './price-slider.js';
 
+const form = document.querySelector('.ad-form');
+const mapFilter = document.querySelector('.map__filters');
+
 const formNoticeSetEnabled = (enable) => {
-  const form = document.querySelector('.ad-form');
   if (enable) {
     form.classList.remove('ad-form--disabled');
   } else {
@@ -14,7 +16,6 @@ const formNoticeSetEnabled = (enable) => {
 };
 
 const formFilterSetEnabled = (enable) => {
-  const mapFilter = document.querySelector('.map__filters');
   if (enable) {
     mapFilter.classList.remove('map__filter--disabled');
   } else {
@@ -29,7 +30,6 @@ const formFilterSetEnabled = (enable) => {
 };
 
 const resetMapFilters = () => {
-  const mapFilter = document.querySelector('.map__filters');
   mapFilter.querySelectorAll('select').forEach((select) => {
     select.value = 'any';
   });
