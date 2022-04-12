@@ -25,7 +25,7 @@ const resetMainMarker = () => {
  * @param {[Object]} bookings
  */
 const createMarkers = (bookings) => {
-  const result = [];
+  const results = [];
   const pinIcon = L.icon({
     iconUrl: '../img/pin.svg', iconSize: [40, 40], iconAnchor: [20, 40], popupAnchor: [0, -20]
   });
@@ -34,9 +34,9 @@ const createMarkers = (bookings) => {
       icon: pinIcon
     });
     marker.bindPopup(generateBookingItem(booking));
-    result.push(marker);
+    results.push(marker);
   });
-  return result;
+  return results;
 };
 
 const createBookingMarkers = (aMap) => {
