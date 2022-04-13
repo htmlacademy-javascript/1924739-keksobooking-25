@@ -1,40 +1,66 @@
-import {OFFER_TYPES} from './util.js';
+import {createElement, OFFER_TYPES} from './util.js';
 
 function generateBookingItem({offer, author}) {
-  let result;
+  const article = document.querySelector('#card').content.querySelector('.popup').cloneNode(true);
   try {
-    let featureItems = '';
-    if (offer.features !== undefined) {
-      offer.features.forEach((featureName) => {
-        featureItems += `<li class="popup__feature popup__feature--${featureName}"></li>`;
+    article.querySelector('.popup__avatar').src = author.avatar;
+    article.querySelector('.popup__title').textContent = offer.title;
+    article.querySelector('.popup__text--address').textContent = offer.address;
+
+    const price = article.querySelector('.popup__text--price');
+    price.textContent = offer.price;
+    price.insertAdjacentHTML('beforeend', '<span> ₽/ночь</span>');
+
+    article.querySelector('.popup__type').textContent = OFFER_TYPES[offer.type];
+
+    article.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты ${offer.guests
+      ? `для ${offer.guests} гостей`
+      : ' - не для гостей'}`;
+
+    article.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+
+    const generateFeaturesFragment = (features) => {
+      const featuresFragment = document.createDocumentFragment();
+      features.forEach((featureName) => {
+        const featureItem = createElement('<li class="popup__feature"></li>');
+        featureItem.classList.add(`popup__feature--${featureName}`);
+        featuresFragment.appendChild(featureItem);
       });
+      return featuresFragment;
+    };
+
+    const featuresList = article.querySelector('.popup__features');
+    featuresList.innerHTML = '';
+    if (offer.features !== undefined && offer.features.length > 0) {
+      featuresList.appendChild(generateFeaturesFragment(offer.features));
     }
-    let photos = '';
-    if (offer.photos !== undefined) {
-      offer.photos.forEach((photo) => {
-        photos += `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
+
+    const description = article.querySelector('.popup__description');
+    if (offer.description) {
+      description.innerText = offer.description;
+    } else {
+      description.remove();
+    }
+
+    const generatePhotosFragment = (photos) => {
+      const photosFragment = document.createDocumentFragment();
+      photos.forEach((photoUrl) => {
+        const photoImg = createElement('<img src="" class="popup__photo" width="45" height="40" alt="Фотография жилья">');
+        photoImg.src = photoUrl;
+        photosFragment.appendChild(photoImg);
       });
+      return photosFragment;
+    };
+
+    const photosList = article.querySelector('.popup__photos');
+    photosList.innerHTML = '';
+    if (offer.photos !== undefined && offer.photos.length > 0) {
+      photosList.appendChild(generatePhotosFragment(offer.photos));
     }
-    result = `<article class="popup">
-      <img src="${author.avatar}" class="popup__avatar" width="70" height="70" alt="Аватар пользователя">
-      <h3 class="popup__title">${offer.title}</h3>
-      <p class="popup__text popup__text--address">${offer.address}</p>
-      <p class="popup__text popup__text--price">${offer.price} <span>₽/ночь</span></p>
-      <h4 class="popup__type">${OFFER_TYPES[offer.type]}</h4>
-      <p class="popup__text popup__text--capacity">${offer.rooms} комнаты ${offer.guests ? `для ${offer.guests} гостей` : ' - не для гостей'}</p>
-      <p class="popup__text popup__text--time">Заезд после ${offer.checkin}, выезд до ${offer.checkout}</p>
-      <ul class="popup__features" style="display: ${featureItems.length > 0 ? 'initial' : 'none'}">
-      ${featureItems}
-      </ul>
-      ${offer.description ? `<p class="popup__description">${offer.description}</p>` : ''}
-      <div class="popup__photos">
-        ${photos}
-      </div>
-    </article>`;
   } catch (e) {
-    result = '<article class="popup"></article>';
+    article.innerHTML = '<article class="popup"></article>';
   }
-  return result;
+  return article;
 }
 
 export {generateBookingItem};

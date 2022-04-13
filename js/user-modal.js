@@ -1,8 +1,4 @@
-const createElement = (htmlString) => {
-  const template = document.createElement('template');
-  template.innerHTML = htmlString.trim();
-  return template.content.firstChild;
-};
+import {createElement} from './util.js';
 
 const addDialogCloseHandler = (dialog, onDialogClose) => {
 

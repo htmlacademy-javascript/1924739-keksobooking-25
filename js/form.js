@@ -135,10 +135,9 @@ const filterBooking = ({offer}) => {
     return false;
   }
 
-  const featureElements = Array.from(filters.querySelectorAll('[id^=filter]'));
+  const checkedFeatures = Array.from(filters.querySelectorAll('[id^=filter]')).filter((feature) => feature.checked);
 
-  return featureElements.every((feature) => !offer.features ||
-    (!feature.checked || offer.features.some((f) => feature.value === f)));
+  return checkedFeatures.every((feature) => offer.features && offer.features.some((f) => feature.value === f));
 };
 
 export {filterBooking};
