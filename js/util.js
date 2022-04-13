@@ -31,4 +31,10 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export {getMinPrice, debounce, OFFER_TYPES};
+const createElement = (htmlString) => {
+  const template = document.createElement('template');
+  template.innerHTML = htmlString.trim();
+  return template.content.firstChild;
+};
+
+export {getMinPrice, debounce, createElement, OFFER_TYPES};

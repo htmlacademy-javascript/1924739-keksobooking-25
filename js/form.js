@@ -122,8 +122,8 @@ const filterBooking = ({offer}) => {
 
   const checkType = (type) => type === offer.type;
   const checkPrice = (price) => offer.price >= PRICES[price.toUpperCase()][0] && offer.price <= PRICES[price.toUpperCase()][1];
-  const checkRooms = (rooms) => +rooms === offer.rooms;
-  const checkGuests = (guests) => +guests === offer.guests;
+  const checkRooms = (rooms) => Number.parseInt(rooms, 10) === offer.rooms;
+  const checkGuests = (guests) => Number.parseInt(guests, 10) === offer.guests;
 
   const housingMatches = (attribute, matcherFn) => {
     const attrValue = filters.querySelector(`#housing-${attribute}`).value;
@@ -135,10 +135,9 @@ const filterBooking = ({offer}) => {
     return false;
   }
 
-  const featureElements = Array.from(filters.querySelectorAll('[id^=filter]'));
+  const checkedFeatures = Array.from(filters.querySelectorAll('[id^=filter]')).filter((feature) => feature.checked);
 
-  return featureElements.every((feature) => offer.features &&
-    (!feature.checked || offer.features.some((f) => feature.value === f)));
+  return checkedFeatures.every((feature) => offer.features && offer.features.some((f) => feature.value === f));
 };
 
 export {filterBooking};

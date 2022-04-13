@@ -7,8 +7,8 @@ import {debounce} from './util.js';
 
 const COORD_DEFAULT = {lat: '35.65283', lng: '139.83948'};
 const MAX_BOOKINGS_NUMBER = 10;
-const createmap = () => L.map('map-canvas');
-let map = createmap();
+const createMap = () => L.map('map-canvas');
+let map = createMap();
 const markerGroup = L.layerGroup().addTo(map);
 
 const setAddress = ({lat, lng}) => {
@@ -25,21 +25,21 @@ const resetMainMarker = () => {
  * @param {[Object]} bookings
  */
 const createMarkers = (bookings) => {
-  const result = [];
+  const results = [];
   const pinIcon = L.icon({
-    iconUrl: '../img/pin.svg', iconSize: [40, 40], iconAnchor: [20, 40], popupAnchor: [0, -20]
+    iconUrl: '/img/pin.svg', iconSize: [40, 40], iconAnchor: [20, 40], popupAnchor: [0, -20]
   });
   bookings.forEach((booking) => {
     const marker = L.marker(booking.location, {
       icon: pinIcon
     });
     marker.bindPopup(generateBookingItem(booking));
-    result.push(marker);
+    results.push(marker);
   });
-  return result;
+  return results;
 };
 
-const createBookingMarkers = (aMap) => {
+const createBookingMarkers = () => {
   formFilterSetEnabled(false);
   fetchBookings()
     .then((bookings) => {
@@ -49,7 +49,7 @@ const createBookingMarkers = (aMap) => {
       formFilterSetEnabled(true);
     })
     .catch((e) => {
-      showErrorDialog(e.message, () => createBookingMarkers(aMap));
+      showErrorDialog(e.message, () => createBookingMarkers());
     });
 };
 
@@ -59,13 +59,13 @@ const mapInit = () => {
   if (map) {
     map.remove();
   }
-  map = createmap();
+  map = createMap();
   markerGroup.addTo(map);
 
   map.on('load', () => {
     formNoticeSetEnabled(true);
     resetMainMarker();
-    createBookingMarkers(map);
+    createBookingMarkers();
   })
     .setView(COORD_DEFAULT, 12);
 
@@ -74,7 +74,7 @@ const mapInit = () => {
   },).addTo(map);
 
   const mainPinIcon = L.icon({
-    iconUrl: '../img/main-pin.svg', iconSize: [52, 52], iconAnchor: [26, 52],
+    iconUrl: '/img/main-pin.svg', iconSize: [52, 52], iconAnchor: [26, 52],
   });
 
   const mainPinMarker = L.marker(COORD_DEFAULT, {
@@ -90,7 +90,7 @@ const mapInit = () => {
   const filters = document.querySelector('.map__filters');
 
   filters.addEventListener('change', () => {
-    createMarkersDebounced(map);
+    createMarkersDebounced();
   });
 };
 

@@ -31,11 +31,7 @@ const resetSlider = (value) => {
 };
 
 const sliderSetDisabled = (disabled) => {
-  if (disabled) {
-    slider.setAttribute('disabled', true);
-  } else {
-    slider.removeAttribute('disabled');
-  }
+  slider.disabled = disabled;
 };
 
 slider.noUiSlider.on('slide', () => {
@@ -46,9 +42,9 @@ input.addEventListener('change', (evt) => {
   resetSlider(evt.target.value);
 });
 
-const setPriceSliderChangeHandler = (handler) => {
-  slider.noUiSlider.on('slide', handler);
-  input.addEventListener('change', handler);
+const setPriceSliderChangeHandler = (onPriceChange) => {
+  slider.noUiSlider.on('slide', onPriceChange);
+  input.addEventListener('change', onPriceChange);
 };
 
 export {resetSlider, sliderSetDisabled, setPriceSliderChangeHandler};
