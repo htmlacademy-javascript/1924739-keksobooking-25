@@ -27,7 +27,7 @@ const resetMainMarker = () => {
 const createMarkers = (bookings) => {
   const results = [];
   const pinIcon = L.icon({
-    iconUrl: '../img/pin.svg', iconSize: [40, 40], iconAnchor: [20, 40], popupAnchor: [0, -20]
+    iconUrl: '/img/pin.svg', iconSize: [40, 40], iconAnchor: [20, 40], popupAnchor: [0, -20]
   });
   bookings.forEach((booking) => {
     const marker = L.marker(booking.location, {
@@ -74,7 +74,7 @@ const mapInit = () => {
   },).addTo(map);
 
   const mainPinIcon = L.icon({
-    iconUrl: '../img/main-pin.svg', iconSize: [52, 52], iconAnchor: [26, 52],
+    iconUrl: '/img/main-pin.svg', iconSize: [52, 52], iconAnchor: [26, 52],
   });
 
   const mainPinMarker = L.marker(COORD_DEFAULT, {
