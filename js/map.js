@@ -7,8 +7,8 @@ import {debounce} from './util.js';
 
 const COORD_DEFAULT = {lat: '35.65283', lng: '139.83948'};
 const MAX_BOOKINGS_NUMBER = 10;
-const createmap = () => L.map('map-canvas');
-let map = createmap();
+const createMap = () => L.map('map-canvas');
+let map = createMap();
 const markerGroup = L.layerGroup().addTo(map);
 
 const setAddress = ({lat, lng}) => {
@@ -59,7 +59,7 @@ const mapInit = () => {
   if (map) {
     map.remove();
   }
-  map = createmap();
+  map = createMap();
   markerGroup.addTo(map);
 
   map.on('load', () => {
