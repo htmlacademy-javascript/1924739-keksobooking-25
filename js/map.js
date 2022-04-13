@@ -39,7 +39,7 @@ const createMarkers = (bookings) => {
   return results;
 };
 
-const createBookingMarkers = (aMap) => {
+const createBookingMarkers = () => {
   formFilterSetEnabled(false);
   fetchBookings()
     .then((bookings) => {
@@ -49,7 +49,7 @@ const createBookingMarkers = (aMap) => {
       formFilterSetEnabled(true);
     })
     .catch((e) => {
-      showErrorDialog(e.message, () => createBookingMarkers(aMap));
+      showErrorDialog(e.message, () => createBookingMarkers());
     });
 };
 
@@ -65,7 +65,7 @@ const mapInit = () => {
   map.on('load', () => {
     formNoticeSetEnabled(true);
     resetMainMarker();
-    createBookingMarkers(map);
+    createBookingMarkers();
   })
     .setView(COORD_DEFAULT, 12);
 
@@ -90,7 +90,7 @@ const mapInit = () => {
   const filters = document.querySelector('.map__filters');
 
   filters.addEventListener('change', () => {
-    createMarkersDebounced(map);
+    createMarkersDebounced();
   });
 };
 
