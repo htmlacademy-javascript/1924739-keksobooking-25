@@ -1,5 +1,12 @@
 import {sliderSetDisabled} from './price-slider.js';
 
+const PRICE_RANGES = {
+  ANY: [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY],
+  MIDDLE: [10000, 50000],
+  LOW: [0, 10000],
+  HIGH: [50000, Number.POSITIVE_INFINITY]
+};
+
 const form = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
 
@@ -38,4 +45,4 @@ const resetMapFilters = () => {
   });
 };
 
-export {formNoticeSetEnabled, formFilterSetEnabled, resetMapFilters};
+export {formNoticeSetEnabled, formFilterSetEnabled, resetMapFilters, PRICE_RANGES};
