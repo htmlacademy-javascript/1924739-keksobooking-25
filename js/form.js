@@ -4,7 +4,7 @@ import {resetSlider, setPriceSliderChangeHandler} from './price-slider.js';
 import {mapInit} from './map.js';
 import {showErrorDialog, showSuccessDialog} from './user-modal.js';
 import {clearImagesPreview} from './form-file-chooser.js';
-import {resetMapFilters} from './form-util.js';
+import {PRICE_RANGES, resetMapFilters} from './form-util.js';
 
 const form = document.querySelector('.ad-form');
 
@@ -27,7 +27,9 @@ const getPriceErrorMessage = () => `Минимальная цена для жи�
 pristine.addValidator(priceInput, validatePrice, getPriceErrorMessage);
 
 accommodationTypeSelect.addEventListener('change', (evt) => {
-  priceInput.placeholder = getMinPrice(evt.target.value);
+  const minPrice = getMinPrice(evt.target.value);
+  priceInput.min = minPrice;
+  priceInput.placeholder = minPrice;
   pristine.validate(priceInput);
 });
 
@@ -110,18 +112,11 @@ form.addEventListener('reset', () => {
   clearImagesPreview();
 });
 
+const filters = document.querySelector('.map__filters');
+
 const filterBooking = ({offer}) => {
-  const PRICES = {
-    ANY: [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY],
-    MIDDLE: [10000, 50000],
-    LOW: [0, 10000],
-    HIGH: [50000, Number.POSITIVE_INFINITY]
-  };
-
-  const filters = document.querySelector('.map__filters');
-
   const checkType = (type) => type === offer.type;
-  const checkPrice = (price) => offer.price >= PRICES[price.toUpperCase()][0] && offer.price <= PRICES[price.toUpperCase()][1];
+  const checkPrice = (price) => offer.price >= PRICE_RANGES[price.toUpperCase()][0] && offer.price <= PRICE_RANGES[price.toUpperCase()][1];
   const checkRooms = (rooms) => Number.parseInt(rooms, 10) === offer.rooms;
   const checkGuests = (guests) => Number.parseInt(guests, 10) === offer.guests;
 
