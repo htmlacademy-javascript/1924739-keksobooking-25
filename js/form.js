@@ -27,7 +27,9 @@ const getPriceErrorMessage = () => `Минимальная цена для жи�
 pristine.addValidator(priceInput, validatePrice, getPriceErrorMessage);
 
 accommodationTypeSelect.addEventListener('change', (evt) => {
-  priceInput.placeholder = getMinPrice(evt.target.value);
+  const minPrice = getMinPrice(evt.target.value);
+  priceInput.min = minPrice;
+  priceInput.placeholder = minPrice;
   pristine.validate(priceInput);
 });
 
